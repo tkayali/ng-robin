@@ -1,0 +1,36 @@
+@orange: #D26D31;
+@white: #FFF;
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	padding: 10px;
+}
+
+.page {
+	width: 600px;
+	height: 600px;
+	margin: 100px auto 0 auto;
+}
+
+.robins {
+	margin-top: 100px;
+
+	.robin {
+		padding: 10px;
+		border-bottom: 1px solid @orange;
+		list-style: none;
+
+		&.read {
+			background-color: @orange;
+			color: @white;
+			border-bottom: 1px solid black;
+		}
+	}
+}
+
+.main-link {
+	float: right;
+}

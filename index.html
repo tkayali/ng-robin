@@ -1,0 +1,61 @@
+<!doctype html>
+<html ng-app="RobinApp" ng-cloak>
+<head>
+	<title>Robin</title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet/less" type="text/css" href="main.less"/>
+</head>
+
+<body ng-controller="RobinController as robinCtrl">
+	<div class="page">
+		<form role="form" ng-show="robinCtrl.onLogin">
+			<h3>Login</h3>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username">
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password">
+			</div>
+
+			<button type="submit" class="btn btn-default">Login</button>
+		</form>
+
+		<form role="form" ng-hide="robinCtrl.onLogin">
+			<h3>Sign Up</h3>
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Username">
+			</div>
+
+			<div class="form-group">
+				<input type="password" class="form-control" placeholder="Password">
+			</div>
+
+			<div class="form-group">
+				<input type="email" class="form-control" placeholder="Email">
+			</div>
+
+			<button type="submit" class="btn btn-default">Sign up</button>
+		</form>
+
+		<a class="main-link" ng-hide="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Login</a>
+		<a class="main-link" ng-show="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Sign Up</a>
+		<div class="clearfix"></div>
+
+		<ul class="list-unstyled robins" ng-controller="MessageController as msgCtrl">
+			<p class="lead">Robins</p>
+			<li class="robin" ng-repeat="robin in robinCtrl.robins" ng-class="{read: robin.read}">
+				<h5>{{robin.user}} says {{robin.message}}</h5>
+				<button type="button" class="btn btn-default btn-xs" ng-click="msgCtrl.toggleRead(robin)">
+					<span ng-hide="robin.read">Mark as read</span>
+					<span ng-show="robin.read">Mark as unread</span>
+				</button>
+			</li>
+		</ul>
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
