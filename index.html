@@ -15,50 +15,70 @@
 
 <body ng-controller="RobinController as robinCtrl">
 	<div class="page">
-		<form role="form" ng-show="robinCtrl.onLogin" name="loginForm" ng-submit="loginForm.$valid && robinCtrl.submitForm()">
-			<h3>Login</h3>
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Username" ng-model="loginUsername" required>
+		<div ng-if="!robinCtrl.user.isLoggedIn">
+			<form role="form" ng-show="robinCtrl.onLogin" name="loginForm" ng-submit="loginForm.$valid && robinCtrl.submitLogin()">
+				<h3>Login</h3>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Username" ng-model="robinCtrl.user.username" required>
+				</div>
+
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Password" ng-model="robinCtrl.user.password" required>
+				</div>
+
+				<button type="submit" class="btn btn-default">Login</button>
+			</form>
+
+			<form role="form" ng-hide="robinCtrl.onLogin" name="signUpForm" ng-submit="signUpForm.$valid && robinCtrl.submitCreate()">
+				<h3>Sign Up</h3>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Username" ng-model="user.username" required>
+				</div>
+
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Password" ng-model="user.password" required>
+				</div>
+
+				<div class="form-group">
+					<input type="email" class="form-control" placeholder="Email" ng-model="user.email" required>
+				</div>
+
+				<button type="submit" class="btn btn-default">Sign up</button>
+			</form>
+
+			<a class="pull-right" ng-hide="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Login</a>
+			<a class="pull-right" ng-show="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Sign Up</a>
+			<div class="clearfix"></div>
+		</div>
+
+		<div ng-if="robinCtrl.user.isLoggedIn" ng-controller="RobinListController as robinListCtrl">
+			<div>
+				<p class="lead">{{robinListCtrl.message}}</p>
+				<input type="text" ng-model="robinCtrl.robinsFilter" class="form-control" placeholder="Filter...">
+				<p class="">Filtering for {{robinCtrl.robinsFilter}}</p>
 			</div>
 
-			<div class="form-group">
-				<input type="password" class="form-control" placeholder="Password" ng-model="passwordUsername" required>
-			</div>
+			<robin-form></robin-form>
 
-			<button type="submit" class="btn btn-default">Login</button>
-		</form>
+			<ul class="list-unstyled robins">
+				<p class="lead">Chirps</p>
+				<li class="robin" ng-repeat="robin in robinListCtrl.robins" ng-class="{read: robin.read}">
+					<h5>{{robin.user.username}} says {{robin.message}}</h5>
+					<img ng-if="robin.image" ng-src="{{robin.image}}">
+					<div class="bottom-controls">
+						<a ng-if="robin.link" ng-href="{{robin.link}}">Link</a>
+						<button type="button" class="btn btn-default btn-xs pull-right" ng-hide="robin.read" ng-click="robinListCtrl.toggleRead(robin)">
+							<span>Mark as read</span>
+							<!-- <span ng-show="robin.read">Mark as read</span> -->
+						</button>
+					</div>
+				</li>
+			</ul>
+		</div>
 
-		<form role="form" ng-hide="robinCtrl.onLogin" name="signUpForm" ng-submit="signUpForm.$valid && robinCtrl.submitForm()">
-			<h3>Sign Up</h3>
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Username" ng-model="username" required>
-			</div>
-
-			<div class="form-group">
-				<input type="password" class="form-control" placeholder="Password" ng-model="password" required>
-			</div>
-
-			<div class="form-group">
-				<input type="email" class="form-control" placeholder="Email" ng-model="email" required>
-			</div>
-
-			<button type="submit" class="btn btn-default">Sign up</button>
-		</form>
-
-		<a class="pull-right" ng-hide="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Login</a>
-		<a class="pull-right" ng-show="robinCtrl.onLogin" ng-click="robinCtrl.togglePage()">Show Sign Up</a>
-		<div class="clearfix"></div>
-
-		<ul class="list-unstyled robins">
-			<p class="lead">Robins</p>
-			<li class="robin" ng-repeat="robin in robinCtrl.robins" ng-class="{read: robin.read}">
-				<h5>{{robin.user}} says {{robin.message}}</h5>
-				<button type="button" class="btn btn-default btn-xs" ng-hide="robin.read" ng-click="robinCtrl.toggleRead(robin)">
-					<span>Mark as read</span>
-					<!-- <span ng-show="robin.read">Mark as read</span> -->
-				</button>
-			</li>
-		</ul>
+		<div ng-if="robinCtrl.user.isLoggedIn">
+			<button type="button" class="btn btn-default" ng-click="robinCtrl.logOut()">Log out!</button>
+		</div>
 	</div>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
