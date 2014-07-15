@@ -18,9 +18,11 @@ app.controller('RobinController', function() {
 	this.togglePage = function() {
 		this.onLogin = !this.onLogin;
 	}
-});
 
-app.controller('MessageController', function() {
+	this.submitForm = function() {
+		alert('Congratulations! The form is good for submitting!');
+	}
+	
 	this.toggleRead = function(robin) {
 		robin.read = !robin.read;
 	}
