@@ -1,0 +1,9 @@
+<h5>{{robin.user.username}} says {{robin.message}}</h5>
+<img ng-if="robin.images.length" ng-src="{{robin.images[0].src}}">
+<p class="caption" ng-show="robin.showCaption">{{robin.images[0].caption}}</p>
+<div class="bottom-controls">
+	<a ng-if="robin.link" ng-href="{{robin.link}}">Link</a>
+	<button type="button" class="btn btn-default btn-xs pull-right" ng-hide="robin.read" ng-click="toggleRead()">
+		<span>Mark as read</span>
+	</button>
+</div>

@@ -15,32 +15,34 @@
 
 <body ng-controller="RobinController as robinCtrl">
 	<div class="page">
+		<p class="message-container" ng-class="{'bg-danger': robinCtrl.flashMessage.message.error, 'bg-info': !robinCtrl.flashMessage.message.error}" ng-show="robinCtrl.flashMessage.message.text">{{robinCtrl.flashMessage.message.text}}</p>
+
 		<div ng-if="!robinCtrl.user.isLoggedIn">
-			<form role="form" ng-show="robinCtrl.onLogin" name="loginForm" ng-submit="loginForm.$valid && robinCtrl.submitLogin()">
+			<form role="form" ng-show="robinCtrl.onLogin" name="loginForm" ng-submit="loginForm.$valid && robinCtrl.submitLogin(loginForm)">
 				<h3>Login</h3>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Username" ng-model="robinCtrl.user.username" required>
+					<input type="text" class="form-control" placeholder="Username" ng-model="loginForm.username" required>
 				</div>
 
 				<div class="form-group">
-					<input type="password" class="form-control" placeholder="Password" ng-model="robinCtrl.user.password" required>
+					<input type="password" class="form-control" placeholder="Password" ng-model="loginForm.password" required>
 				</div>
 
 				<button type="submit" class="btn btn-default">Login</button>
 			</form>
 
-			<form role="form" ng-hide="robinCtrl.onLogin" name="signUpForm" ng-submit="signUpForm.$valid && robinCtrl.submitCreate()">
+			<form role="form" ng-hide="robinCtrl.onLogin" name="signUpForm" ng-submit="signUpForm.$valid && robinCtrl.submitCreate(signUpForm)">
 				<h3>Sign Up</h3>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Username" ng-model="user.username" required>
+					<input type="text" class="form-control" placeholder="Username" ng-model="signUpForm.username" required>
 				</div>
 
 				<div class="form-group">
-					<input type="password" class="form-control" placeholder="Password" ng-model="user.password" required>
+					<input type="password" class="form-control" placeholder="Password" ng-model="signUpForm.password" required>
 				</div>
 
 				<div class="form-group">
-					<input type="email" class="form-control" placeholder="Email" ng-model="user.email" required>
+					<input type="email" class="form-control" placeholder="Email" ng-model="signUpForm.email" required>
 				</div>
 
 				<button type="submit" class="btn btn-default">Sign up</button>
@@ -53,7 +55,6 @@
 
 		<div ng-if="robinCtrl.user.isLoggedIn" ng-controller="RobinListController as robinListCtrl">
 			<div>
-				<p class="lead">{{robinListCtrl.message}}</p>
 				<input type="text" ng-model="robinCtrl.robinsFilter" class="form-control" placeholder="Filter...">
 				<p class="">Filtering for {{robinCtrl.robinsFilter}}</p>
 			</div>
@@ -62,16 +63,8 @@
 
 			<ul class="list-unstyled robins">
 				<p class="lead">Chirps</p>
-				<li class="robin" ng-repeat="robin in robinListCtrl.robins" ng-class="{read: robin.read}">
-					<h5>{{robin.user.username}} says {{robin.message}}</h5>
-					<img ng-if="robin.image" ng-src="{{robin.image}}">
-					<div class="bottom-controls">
-						<a ng-if="robin.link" ng-href="{{robin.link}}">Link</a>
-						<button type="button" class="btn btn-default btn-xs pull-right" ng-hide="robin.read" ng-click="robinListCtrl.toggleRead(robin)">
-							<span>Mark as read</span>
-							<!-- <span ng-show="robin.read">Mark as read</span> -->
-						</button>
-					</div>
+				<li class="robin" ng-repeat="robin in robinListCtrl.robinsService.robins" ng-class="{read: robin.read}">
+					<robin-chirp robin="robin" toggle-read="robinListCtrl.toggleRead(robin)"></robin-chirp>
 				</li>
 			</ul>
 		</div>
