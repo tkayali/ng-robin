@@ -14,7 +14,7 @@
 </head>
 
 <body ng-controller="RobinController as robinCtrl">
-	<div class="page">
+		<div class="page">
 		<p class="message-container" ng-class="{'bg-danger': robinCtrl.flashMessage.message.error, 'bg-info': !robinCtrl.flashMessage.message.error}" ng-show="robinCtrl.flashMessage.message.text">{{robinCtrl.flashMessage.message.text}}</p>
 
 		<div ng-if="!robinCtrl.user.isLoggedIn">
@@ -54,28 +54,17 @@
 		</div>
 
 		<div ng-if="robinCtrl.user.isLoggedIn" ng-controller="RobinListController as robinListCtrl">
-			<div>
-				<input type="text" ng-model="robinCtrl.robinsFilter" class="form-control" placeholder="Filter...">
-				<p class="">Filtering for {{robinCtrl.robinsFilter}}</p>
-			</div>
-
-			<robin-form></robin-form>
-
-			<ul class="list-unstyled robins">
-				<p class="lead">Chirps</p>
-				<li class="robin" ng-repeat="robin in robinListCtrl.robinsService.robins" ng-class="{read: robin.read}">
-					<robin-chirp robin="robin" toggle-read="robinListCtrl.toggleRead(robin)"></robin-chirp>
-				</li>
-			</ul>
+			<robin-tab></robin-tab>
 		</div>
-
+	
 		<div ng-if="robinCtrl.user.isLoggedIn">
 			<button type="button" class="btn btn-default" ng-click="robinCtrl.logOut()">Log out!</button>
 		</div>
 	</div>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular-route.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>

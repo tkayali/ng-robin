@@ -1,0 +1,30 @@
+<div>
+	<input type="text" ng-model="robinCtrl.robinsFilter" class="form-control" placeholder="Filter...">
+	<p class="">Filtering for {{robinCtrl.robinsFilter}}</p>
+</div>
+
+<ul>
+	<li ng-click="robinCtrl.onRead = false">Unread</li>
+	<li ng-click="robinCtrl.onRead = true">Read</li>
+</ul>
+
+<robin-form create-new-robin="robinListCtrl.createNewRobin(theRobin, theForm)" the-label="Create Chirp"></robin-form>
+
+<ul class="list-unstyled robins">
+	<p class="lead">Chirps</p>
+	<select class="form-control" ng-model="robinListCtrl.limit">
+		<option value="Infinity">All</option>
+		<option value="5">5</option>
+		<option value="10">10</option>
+	</select>
+	<li class="robin" ng-class="{read: robin.read}" ng-repeat="robin in robinListCtrl.robinsService.robins 
+								| filter: {read: robinCtrl.onRead} 
+								| orderBy: '_id': true 
+								| limitTo: robinListCtrl.limit">
+		<robin-chirp robin="robin">
+			<button type="button" class="btn btn-default btn-xs pull-right" ng-hide="robin.read" ng-click="robinListCtrl.toggleRead(robin)">
+				<span>Mark as read</span>
+			</button>
+		</robin-chirp>
+	</li>
+</ul>

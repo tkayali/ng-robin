@@ -1,9 +1,5 @@
 <p class="lead">Create a New Chirp!</p>
-<form name="newRobin" role="form" ng-submit="newRobin.$valid && robinListCtrl.createNewRobin({
-		message: newRobin.message, 
-		image: newRobin.image, 
-		link: newRobin.link
-	}, newRobin)">
+<form name="newRobin" role="form" ng-submit="newRobin.$valid && createNewRobin({theRobin: {message: newRobin.message, image: newRobin.image, link: newRobin.link}, theForm: newRobin})">
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="Message" ng-model="newRobin.message" required>
 	</div>
@@ -16,6 +12,6 @@
 		<input type="text" class="form-control" placeholder="Link" ng-model="newRobin.link">
 	</div>
 
-	<button type="submit" class="btn btn-default pull-right">Create Chirp</button>
+	<button type="submit" class="btn btn-default pull-right">{{theLabel}}</button>
 	<div class="clearfix"></div>
 </form>
